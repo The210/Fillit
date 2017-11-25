@@ -6,7 +6,7 @@
 /*   By: dhorvill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/14 22:35:52 by dhorvill          #+#    #+#             */
-/*   Updated: 2017/11/24 18:29:49 by dhorvill         ###   ########.fr       */
+/*   Updated: 2017/11/25 01:41:32 by dhorvill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,140 +44,105 @@ static int	nbw(char *s, char c)
 	return (count);
 }
 
-static int det_valid_T(char* buf, int ret)
+static char	**ft_create_table(char *buf, int ret)
 {
-	int 	j;
-	int 	i;
+	int		i;
 	char	new_str[ret];
 	char	**new_table;
 
-	i = 0;
-	j = 0;
+	i = -1;
 	ft_strcpy(new_str, buf);
-	while (new_str[i])
+	while (new_str[++i])
 	{
 		if (new_str[i] == '\n' && new_str[i + 1] == '\n')
 		{
 			new_str[i] = ' ';
 			new_str[i + 1] = ' ';
 		}
-		i++;
 	}
-	i = 0;
 	new_table = ft_strsplit(new_str, ' ');
-	while (new_table[i])
+	return (new_table);
+}
+
+static int	det_valid_t(char *buf, int ret)
+{
+	int		t[4];
+	char	**nt;
+
+	t[0] = -1;
+	t[1] = -1;
+	t[3] = 0;
+	nt = ft_create_table(buf, ret);
+	while (nt[++t[0]])
 	{
-		while (new_table[i][j])
+		t[2] = 0;
+		while (nt[t[0]][++t[1]])
 		{
-			if (new_table[i][j] == '#')
+			if (nt[t[0]][t[1]] == '#')
 			{
-				if (new_table[i][j + 1] != '#' && new_table[i][j - 1] != '#' &&
-						   	new_table[i][j + 5] != '#' && new_table[i][j - 5] != '#')
-				{
-						ft_putstr("not a valid tetrimino shape \n");
-						return (1);
-						break ;
-				}
+				t[2]++;
+				if (nt[t[0]][t[1] + 1] != '#' && nt[t[0]][t[1] - 1] != '#' &&
+					nt[t[0]][t[1] + 5] != '#' && nt[t[0]][t[1] - 5] != '#')
+					return (1);
 			}
-			j++;
 		}
-		i++;
-		j = 0;
+		if (t[2] != 4)
+			return (1);
+		t[1] = 0;
 	}
 	return (0);
 }
 
-int	main(int argc, char **argv)
+static int	ft_more_checks(char *b, int t1)
 {
-	int 	fd;
-	char	buf[BUF_SIZE + 1];
-	int		ret;
 	char	**pdt;
-	int i;
-	int j;
-	int counterhash;
+	int		i;
+	int		j;
+	int		flag;
 
-	i = 0;
+	i = -1;
 	j = 0;
-	counterhash = 0;
-	if (argc != 2)
-		ft_putstr("place-holder, usager message error");
-	fd = open(argv[1], O_RDONLY);
-	ret = read(fd, buf, BUF_SIZE);
-	buf[ret] = '\0';
-	pdt = ft_strsplit(buf, '\n');
-	while (pdt[i])
+	flag = 0;
+	pdt = ft_strsplit(b, '\n');
+	while (pdt[++i])
 	{
 		while (pdt[i][j])
 			j++;
 		if (j != 4)
-		{
-			ft_putstr("not 4 characters per line\n");
-			return (0);
-			break;
-		}
-		i++;
+			flag = 1;
 		j = 0;
 	}
-	i = 0;
-	if (nbw(buf, '\n') % 4 != 0)
-	{
-		ft_putstr("not 4 words per paragraph\n");
-		return (0);
-	}
-	if (det_valid_T(buf, ret) == 1)
-		return (0);
-	while(buf[i])
-	{
-		if (buf[i] != '#' && buf[i] != '.' && buf[i] != '\n' && buf[i] != '\0')
-		{
-			ft_putstr("Wrong character found\n");
-			return (0);
-			break;
-		}
-		if (buf[i] == '\n')
-		{
-			j++;
-			if (j % 4 != 0 && buf[i + 1] == '\n')
-			{
-				ft_putstr("wrong /n separator\n");
-				return (0);
-				break;
-			}
+	if (nbw(b, '\n') % 4 != 0)
+		flag = 1;
+	if (det_valid_t(b, t1) != 0)
+		flag = 1;
+	return (flag);
+}
 
-		}
-		/*if (buf[i] == '#')
-		{
-			if (buf[i - 1] != '#' && buf[i + 1] != '#' &&
-					buf[i + 5] != '#' && buf[i - 5] != '#')
-			{
-				ft_putstr("Not a valid tetrimino shape\n");
-				return (0);
-				break;
-			}
-		}*/
-		if (j % 4 == 0 && j != 0 && buf[i + 1] != '\n' && buf[i + 1])
-		{
-			ft_putstr("Error, no /n in between 4 lines\n");
-			return (0);
-			break; 
-		}
-		if (buf[i] == '#')
-			counterhash++;
-		if (j % 4 == 0 && j != 0)
-		{
-			if (counterhash % 4 != 0)
-			{
-				ft_putstr("not 4 #\n");
-				return (0);
-				break;
-			}
-			counterhash = 0;
-			i++;
-			j = 0;
-		}
-		i++;
-	}
-	ft_putstr("Succes!\n");
-	return (0);
+int			main(int argc, char **argv)
+{
+	int		t[6];
+	char	b[BUF_SIZE + 1];
+	char	**pdt;
+	int		flag;
+
+	flag = 0;
+	t[2] = -1;
+	t[3] = 0;
+	if (argc != 2)
+		ft_putstr("place-holder, usager message error");
+	t[0] = open(argv[1], O_RDONLY);
+	t[1] = read(t[0], b, BUF_SIZE);
+	b[t[1]] = '\0';
+	if (!*b)
+		flag = 1;
+	if (ft_more_checks(b, t[1]) != 0)
+		flag = 1;
+	if ((t[5] = ft_checks(t[2], t[3], b)) != 0)
+		flag = 1;
+	if (flag == 0)
+		return (0);
+	else
+		ft_putstr("error\n");
+	return (1);
 }
