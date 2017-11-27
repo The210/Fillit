@@ -6,7 +6,7 @@
 /*   By: dhorvill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/07 20:12:14 by dhorvill          #+#    #+#             */
-/*   Updated: 2017/11/14 13:33:50 by dhorvill         ###   ########.fr       */
+/*   Updated: 2017/11/25 01:27:11 by dhorvill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,5 +90,6 @@ int					ft_sqrt(int nb);
 char				*ft_strtrimc(char const *s, char c);
 int					ft_iterative_factorial(int nb);
 int					ft_is_prime(int nb);
+int					ft_checks(int t2, int t3, char *b);
 
 #endif

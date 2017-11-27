@@ -1,18 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_readstuff.c                                     :+:      :+:    :+:   */
+/*   ft_checkvalid.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dhorvill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/14 22:35:52 by dhorvill          #+#    #+#             */
-/*   Updated: 2017/11/25 01:41:32 by dhorvill         ###   ########.fr       */
+/*   Created: 2017/11/25 21:13:41 by dhorvill          #+#    #+#             */
+/*   Updated: 2017/11/25 21:13:42 by dhorvill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include <fcntl.h>
-#include <stdio.h>
 
 #define BUF_SIZE 545
 
@@ -88,7 +87,9 @@ static int	det_valid_t(char *buf, int ret)
 		}
 		if (t[2] != 4)
 			return (1);
-		t[1] = 0;
+	//	if (t[0] > 25) //To check
+	//=		return (1);
+		t[1] = -1;
 	}
 	return (0);
 }
@@ -130,7 +131,10 @@ int			main(int argc, char **argv)
 	t[2] = -1;
 	t[3] = 0;
 	if (argc != 2)
-		ft_putstr("place-holder, usager message error");
+	{
+		ft_putstr("place-holder, usager message error\n");
+		return (0);
+	}
 	t[0] = open(argv[1], O_RDONLY);
 	t[1] = read(t[0], b, BUF_SIZE);
 	b[t[1]] = '\0';
