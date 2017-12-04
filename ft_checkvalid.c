@@ -6,7 +6,7 @@
 /*   By: dhorvill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/25 21:13:41 by dhorvill          #+#    #+#             */
-/*   Updated: 2017/11/25 21:13:42 by dhorvill         ###   ########.fr       */
+/*   Updated: 2017/12/02 19:25:10 by dhorvill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ static int	det_valid_t(char *buf, int ret)
 		}
 		if (t[2] != 4)
 			return (1);
-	//	if (t[0] > 25) //To check
+	//	if (t[0] > 25) To check
 	//=		return (1);
 		t[1] = -1;
 	}
