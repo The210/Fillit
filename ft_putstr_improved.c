@@ -1,23 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcmp.c                                        :+:      :+:    :+:   */
+/*   ft_putstr_improved.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ybouzgao <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/07 15:42:08 by ybouzgao          #+#    #+#             */
-/*   Updated: 2017/11/13 20:50:15 by ybouzgao         ###   ########.fr       */
+/*   Created: 2017/12/04 18:41:52 by ybouzgao          #+#    #+#             */
+/*   Updated: 2017/12/15 16:13:43 by dhorvill         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int		ft_strcmp(const char *s1, const char *s2)
+static void	ft_putstre(char const *c, int n)
 {
 	int i;
 
 	i = 0;
-	while (s1[i] == s2[i] && s1[i])
+	while(c[i] && i < n)
+	{
+		if (c[i] != 'e' && i < n)
+			ft_putchar(c[i]);
 		i++;
-	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+	}
+}
+
+void	ft_putstr_improved(char **pdt, int n)
+{
+	int i;
+
+	i = -1;
+	while (pdt[++i] && i < n)
+	{
+		ft_putstre(pdt[i], n);
+		if (i < n - 1)
+			ft_putchar('\n');
+	}
 }

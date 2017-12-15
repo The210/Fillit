@@ -6,7 +6,7 @@
 /*   By: dhorvill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/27 03:51:22 by dhorvill          #+#    #+#             */
-/*   Updated: 2017/11/27 04:08:18 by dhorvill         ###   ########.fr       */
+/*   Updated: 2017/12/04 19:54:48 by ybouzgao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,6 @@
 #include <fcntl.h>
 
 #define BUF_SIZE 545
-
-static char	**ft_create_table(char *buf, int ret)
-{
-	int		i;
-	char	new_str[ret];
-	char	**new_table;
-
-	i = -1;
-	ft_strcpy(new_str, buf);
-	while (new_str[++i])
-	{
-		if (new_str[i] == '\n' && new_str[i + 1] == '\n')
-		{
-			new_str[i] = ' ';
-			new_str[i + 1] = ' ';
-		}
-	}
-	new_table = ft_strsplit(new_str, ' ');
-	return (new_table);
-}
 
 static int	ft_is_there_h(char *line)
 {
@@ -54,7 +34,7 @@ static int	ft_is_there_h(char *line)
 	return (flag);
 }
 
-static int	ft_find_highest(char **pdt)
+int	ft_find_highest(char **pdt)
 {
 	char	**line;
 	int		i;
@@ -82,7 +62,31 @@ static int	ft_find_highest(char **pdt)
 	return (highest);
 }
 
-static int	ft_count_l(char **pdt, int highest)
+int ft_find_longest(char **pdt)
+{
+	int i;
+	int j;
+	int counter;
+	int longest;
+	
+	longest = 1;
+	while (pdt[i])
+	{
+		j = 0;
+		counter = 1;
+		while (pdt[i][j])
+		{
+			if (pdt[i][j] == '#' && (pdt[i][j + 1] == '#' || pdt[i][j + 6] == '#'))
+				counter++;
+			j++;
+		}
+		if (counter > longest)
+			longest = counter;
+		i++;
+	}
+}
+
+int			ft_count_l(char **pdt, int highest)
 {
 	char	**line;
 	int		i;
@@ -109,19 +113,4 @@ static int	ft_count_l(char **pdt, int highest)
 	}
 	ft_putnbr(counter);
 	return (counter);
-}
-
-int			main(int argc, char **argv)
-{
-	int		fd;
-	int		ret;
-	char	buf[BUF_SIZE + 1];
-	char	**pdt;
-
-	fd = open(argv[1], O_RDONLY);
-	ret = read(fd, buf, BUF_SIZE);
-	buf[ret] = '\0';
-	if ((pdt = ft_create_table(buf, ret)) == NULL)
-		return (0);
-	return (ft_count_l(pdt, ft_find_highest(pdt)));
 }

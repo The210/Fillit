@@ -6,7 +6,7 @@
 /*   By: dhorvill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/25 21:13:41 by dhorvill          #+#    #+#             */
-/*   Updated: 2017/12/02 19:25:10 by dhorvill         ###   ########.fr       */
+/*   Updated: 2017/12/04 17:07:12 by ybouzgao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,22 +120,21 @@ static int	ft_more_checks(char *b, int t1)
 	return (flag);
 }
 
-int			main(int argc, char **argv)
+int			check_valid(int a, char **c)
 {
 	int		t[6];
 	char	b[BUF_SIZE + 1];
-	char	**pdt;
 	int		flag;
 
 	flag = 0;
 	t[2] = -1;
 	t[3] = 0;
-	if (argc != 2)
+	if (a != 2)
 	{
 		ft_putstr("place-holder, usager message error\n");
 		return (0);
 	}
-	t[0] = open(argv[1], O_RDONLY);
+	t[0] = open(c[1], O_RDONLY);
 	t[1] = read(t[0], b, BUF_SIZE);
 	b[t[1]] = '\0';
 	if (!*b)

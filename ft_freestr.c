@@ -1,23 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcmp.c                                        :+:      :+:    :+:   */
+/*   ft_freestr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ybouzgao <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/07 15:42:08 by ybouzgao          #+#    #+#             */
-/*   Updated: 2017/11/13 20:50:15 by ybouzgao         ###   ########.fr       */
+/*   Created: 2017/12/13 15:47:16 by ybouzgao          #+#    #+#             */
+/*   Updated: 2017/12/13 15:56:21 by ybouzgao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int		ft_strcmp(const char *s1, const char *s2)
+void	ft_freestr(char **str)
 {
 	int i;
 
 	i = 0;
-	while (s1[i] == s2[i] && s1[i])
+	while (str[i])
+	{
+		free(str[i]);
 		i++;
-	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+	}
+	free(str);
 }

@@ -1,23 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcmp.c                                        :+:      :+:    :+:   */
+/*   ft_strcmp_improved.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ybouzgao <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/07 15:42:08 by ybouzgao          #+#    #+#             */
-/*   Updated: 2017/11/13 20:50:15 by ybouzgao         ###   ########.fr       */
+/*   Created: 2017/12/13 17:41:17 by ybouzgao          #+#    #+#             */
+/*   Updated: 2017/12/13 17:42:06 by ybouzgao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int		ft_strcmp(const char *s1, const char *s2)
+int		ft_strcmp_improved(char **str, char **tab)
 {
 	int i;
+	int f;
 
-	i = 0;
-	while (s1[i] == s2[i] && s1[i])
+	f = 0;
+	while(str[i])
+	{
+		if (ft_strcmp(str[i], tab[i]) != 0)
+			f = 1;
 		i++;
-	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+	}
+	return (f);
 }

@@ -6,16 +6,14 @@
 /*   By: dhorvill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/29 14:12:40 by dhorvill          #+#    #+#             */
-/*   Updated: 2017/12/04 02:02:34 by dhorvill         ###   ########.fr       */
+/*   Updated: 2017/12/14 16:06:16 by ybouzgao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "Fillit.h"
-#include <fcntl.h>
-#define BUF_SIZE 4096
+#include "fillit.h"
 
-static char **ft_create_table(char *buf, int ret)
+char **ft_create_table(char *buf, int ret)
 {
 	int		i;
 	char	new_str[ret];
@@ -57,7 +55,14 @@ static t_tetri	ft_fill_tetri(char **tetri, t_tetri tetrimino)
 			}
 			if (tetri[i][j] == '#')
 			{
-				if (tetri[i][j + 1] == '#')
+				if ((tetri[i + 1] && tetri[i + 1][j] == '#' && tetri[i + 1][j - 2] == '#') ||
+						(tetri[i][j - 2] == '#' && tetri[i + 1][j - 2] == '#'))
+				{
+					j = j - 2;
+					i++;
+					tetrimino.coord[k] = 'P';
+				}
+				else if (tetri[i][j + 1] == '#')
 				{
 					j++;
 					tetrimino.coord[k] = 'R';
@@ -101,7 +106,7 @@ static t_tetri	ft_fill_height(t_tetri tetrimino)
 	while (tetrimino.coord[i])
 	{
 		if (tetrimino.coord[i] == 'D' || tetrimino.coord[i] == 'X' ||
-			   	tetrimino.coord[i] == 'Z')
+				tetrimino.coord[i] == 'Z')
 			height++;
 		i++;
 	}
@@ -109,7 +114,7 @@ static t_tetri	ft_fill_height(t_tetri tetrimino)
 	return (tetrimino);
 }
 
-static t_tetri	*ft_fill_all_tetri(char **pdt, t_tetri *tetriminos)
+static t_tetri	*ft_fill_all_tetri(char **pdt, t_tetri *tetriminos, int nbr)
 {
 	int i;
 
@@ -118,6 +123,8 @@ static t_tetri	*ft_fill_all_tetri(char **pdt, t_tetri *tetriminos)
 	{
 		tetriminos[i] = ft_fill_tetri(ft_strsplit(pdt[i], '\n'), tetriminos[i]);
 		tetriminos[i] = ft_fill_height(tetriminos[i]);
+		tetriminos[i].nbr = nbr;
+		tetriminos[i].coord[3] = i + 'A';
 		i++;
 	}
 	return (tetriminos);
@@ -135,21 +142,21 @@ t_tetri	*ft_ret_tet(char *buf, int ret)
 		i++;
 	if ((tetri_tab = (t_tetri*)malloc(sizeof(t_tetri) * (i + 1))) == NULL)
 		return (NULL);
-	ft_fill_all_tetri(all_tetri, tetri_tab);
+	ft_fill_all_tetri(all_tetri, tetri_tab, i);
 	return (tetri_tab);
 }
 
 /*int	main(int argc, char **argv)
-{
-	int fd;
-	int ret;
-	char	buf[BUF_SIZE + 1];
-	t_tetri *tetri_tab;
+  {
+  int fd;
+  int ret;
+  char	buf[BUF_SIZE + 1];
+  t_tetri *tetri_tab;
 
-	fd = open(argv[1], O_RDONLY);
-	ret = read(fd, buf, BUF_SIZE);
-	buf[ret] = '\0';
-	tetri_tab = ft_ret_tet(buf, ret);
-	ft_putstr(tetri_tab[11].coord);
-	return (0);
-}*/
+  fd = open(argv[1], O_RDONLY);
+  ret = read(fd, buf, BUF_SIZE);
+  buf[ret] = '\0';
+  tetri_tab = ft_ret_tet(buf, ret);
+  ft_putstr(tetri_tab[11].coord);
+  return (0);
+  }*/

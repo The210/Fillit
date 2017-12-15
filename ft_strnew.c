@@ -1,23 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcmp.c                                        :+:      :+:    :+:   */
+/*   ft_strnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ybouzgao <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/07 15:42:08 by ybouzgao          #+#    #+#             */
-/*   Updated: 2017/11/13 20:50:15 by ybouzgao         ###   ########.fr       */
+/*   Created: 2017/11/09 19:38:22 by ybouzgao          #+#    #+#             */
+/*   Updated: 2017/11/10 18:42:57 by ybouzgao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int		ft_strcmp(const char *s1, const char *s2)
+char	*ft_strnew(size_t size)
 {
-	int i;
+	char	*s;
+	size_t	i;
 
 	i = 0;
-	while (s1[i] == s2[i] && s1[i])
+	if ((s = (char *)malloc(sizeof(char) * (size + 1))) == 0)
+		return (NULL);
+	while (i < size + 1)
+	{
+		s[i] = '\0';
 		i++;
-	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+	}
+	return (s);
 }

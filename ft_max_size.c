@@ -6,7 +6,7 @@
 /*   By: dhorvill <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/27 03:41:30 by dhorvill          #+#    #+#             */
-/*   Updated: 2017/11/27 03:41:31 by dhorvill         ###   ########.fr       */
+/*   Updated: 2017/12/04 20:01:16 by ybouzgao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,6 @@
 #include <fcntl.h>
 
 #define BUF_SIZE 545
-
-static char	**ft_create_table(char *buf, int ret)
-{
-	int		i;
-	char	new_str[ret];
-	char	**new_table;
-
-	i = -1;
-	ft_strcpy(new_str, buf);
-	while (new_str[++i])
-	{
-		if (new_str[i] == '\n' && new_str[i + 1] == '\n')
-		{
-			new_str[i] = ' ';
-			new_str[i + 1] = ' ';
-		}
-	}
-	new_table = ft_strsplit(new_str, ' ');
-	return (new_table);
-}
 
 static int	ft_is_there_h(char *line)
 {
@@ -54,7 +34,7 @@ static int	ft_is_there_h(char *line)
 	return (flag);
 }
 
-static int	ft_find_highest(char **pdt)
+int	ft_find_highest(char **pdt)
 {
 	char	**line;
 	int		i;
@@ -82,11 +62,12 @@ static int	ft_find_highest(char **pdt)
 	return (highest);
 }
 
-static int	ft_find_longest(char **p, int longest)
+int	ft_find_longest(char **p)
 {
 	int	i;
 	int j;
 	int	k;
+	int longest;
 
 	i = -1;
 	while (p[++i])
@@ -110,11 +91,10 @@ static int	ft_find_longest(char **p, int longest)
 	return (longest);
 }
 
-int			main(int argc, char **argv)
+/*int			main(int argc, char **argv)
 {
 	int		fd;
 	int		ret;
-	int		longest;
 	char	buf[BUF_SIZE + 1];
 	char	**pdt;
 
@@ -130,4 +110,4 @@ int			main(int argc, char **argv)
 		return (ft_find_highest(pdt));
 	else
 		return (ft_find_longest(pdt, longest));
-}
+}*/
